@@ -1,0 +1,5 @@
+outs:
+- md5: 65f503d5c670b7194a824f5853940600
+  size: 815
+  hash: md5
+  path: get_data.py
