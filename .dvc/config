@@ -1,4 +1,7 @@
 [core]
     remote = ssh-storage
+    autostage = true
 ['remote "ssh-storage"']
-    url = ssh://dvc@192.168.56.102/opt/datasets/cars_moldova
+    url = ssh://gera@192.168.56.102/opt/datasets/cars_moldova
+    user = gera
+    port = 22
