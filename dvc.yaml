@@ -1,5 +1,5 @@
 stages:
-  features:
+  get_features:
     cmd: python3 scripts/data_processing/get_features.py datasets/raw/cars.csv datasets/features/cars.csv
     deps:
     - datasets/raw/cars.csv
@@ -14,3 +14,13 @@ stages:
     - scripts/data_processing/change_text_to_numeric.py
     outs:
     - datasets/prepared/cars.csv
+  train:
+    cmd: python3 scripts/model_learning/dt.py datasets/prepared/cars.csv model.pkl
+    deps:
+    - datasets/prepared/cars.csv
+    - scripts/model_learning/dt.py
+    params:
+    - train.max_depth
+    - train.seed
+    outs:
+    - model.pkl

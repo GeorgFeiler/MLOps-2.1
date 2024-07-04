@@ -17,7 +17,7 @@ stages:
       md5: f32d23ddbc208a48d654a0c24cdfc919
       size: 1747411
   prepare:
-    cmd: python3 scripts/data_processing/change_text_to_numeric.py datasets/features/cars.csv
+    cmd: venv3.9/bin/python3 scripts/data_processing/change_text_to_numeric.py datasets/features/cars.csv
       datasets/prepared/cars.csv
     deps:
     - path: datasets/features/cars.csv
@@ -33,3 +33,41 @@ stages:
       hash: md5
       md5: 3ea2ae0173f8bfb0add89ec25caf4d8e
       size: 1163996
+  get_features:
+    cmd: venv3.9/bin/python3 scripts/data_processing/get_features.py datasets/raw/cars.csv
+      datasets/features/cars.csv
+    deps:
+    - path: datasets/raw/cars.csv
+      hash: md5
+      md5: 2b6b9667cee242ee96ac3c922ee51d0b
+      size: 2740252
+    - path: scripts/data_processing/get_features.py
+      hash: md5
+      md5: 081c5f1f641d3f6a9f17bd0547ff5105
+      size: 886
+    outs:
+    - path: datasets/features/cars.csv
+      hash: md5
+      md5: f32d23ddbc208a48d654a0c24cdfc919
+      size: 1747411
+  train:
+    cmd: venv3.9/bin/python3 scripts/model_learning/dt.py datasets/prepared/cars.csv
+      model.pkl
+    deps:
+    - path: datasets/prepared/cars.csv
+      hash: md5
+      md5: 3ea2ae0173f8bfb0add89ec25caf4d8e
+      size: 1163996
+    - path: scripts/model_learning/dt.py
+      hash: md5
+      md5: 510671b05ade5c4fe3ad15dbfe458574
+      size: 741
+    params:
+      params.yaml:
+        cars.max_depth: 5
+        cars.seed: 42
+    outs:
+    - path: models/model.pkl
+      hash: md5
+      md5: 8db4492ac0297021b826d5e03b554d3f
+      size: 28178
