@@ -1,0 +1,35 @@
+schema: '2.0'
+stages:
+  features:
+    cmd: python3 scripts/data_processing/get_features.py datasets/raw/cars.csv datasets/features/cars.csv
+    deps:
+    - path: datasets/raw/cars.csv
+      hash: md5
+      md5: 2b6b9667cee242ee96ac3c922ee51d0b
+      size: 2740252
+    - path: scripts/data_processing/get_features.py
+      hash: md5
+      md5: 081c5f1f641d3f6a9f17bd0547ff5105
+      size: 886
+    outs:
+    - path: datasets/features/cars.csv
+      hash: md5
+      md5: f32d23ddbc208a48d654a0c24cdfc919
+      size: 1747411
+  prepare:
+    cmd: python3 scripts/data_processing/change_text_to_numeric.py datasets/features/cars.csv
+      datasets/prepared/cars.csv
+    deps:
+    - path: datasets/features/cars.csv
+      hash: md5
+      md5: f32d23ddbc208a48d654a0c24cdfc919
+      size: 1747411
+    - path: scripts/data_processing/change_text_to_numeric.py
+      hash: md5
+      md5: 0c889ef170c4d81d000d0e618495f419
+      size: 1193
+    outs:
+    - path: datasets/prepared/cars.csv
+      hash: md5
+      md5: 3ea2ae0173f8bfb0add89ec25caf4d8e
+      size: 1163996

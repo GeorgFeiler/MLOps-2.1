@@ -1,0 +1,16 @@
+stages:
+  features:
+    cmd: python3 scripts/data_processing/get_features.py datasets/raw/cars.csv datasets/features/cars.csv
+    deps:
+    - datasets/raw/cars.csv
+    - scripts/data_processing/get_features.py
+    outs:
+    - datasets/features/cars.csv
+  prepare:
+    cmd: python3 scripts/data_processing/change_text_to_numeric.py datasets/features/cars.csv
+      datasets/prepared/cars.csv
+    deps:
+    - datasets/features/cars.csv
+    - scripts/data_processing/change_text_to_numeric.py
+    outs:
+    - datasets/prepared/cars.csv
