@@ -1,26 +1,47 @@
 stages:
   get_features:
-    cmd: python3 scripts/data_processing/get_features.py datasets/raw/cars.csv datasets/features/cars.csv
+    cmd: venv3.9/bin/python3 scripts/data_processing/get_features.py datasets/raw/cars.csv
+      datasets/features/cars.csv
     deps:
     - datasets/raw/cars.csv
     - scripts/data_processing/get_features.py
     outs:
     - datasets/features/cars.csv
   prepare:
-    cmd: python3 scripts/data_processing/change_text_to_numeric.py datasets/features/cars.csv
+    cmd: venv3.9/bin/python3 scripts/data_processing/change_text_to_numeric.py datasets/features/cars.csv
       datasets/prepared/cars.csv
     deps:
     - datasets/features/cars.csv
     - scripts/data_processing/change_text_to_numeric.py
     outs:
     - datasets/prepared/cars.csv
-  train:
-    cmd: python3 scripts/model_learning/dt.py datasets/prepared/cars.csv model.pkl
+  split:
+    cmd: venv3.9/bin/python3 scripts/data_processing/train_test_split.py datasets/prepared/cars.csv
     deps:
     - datasets/prepared/cars.csv
+    - scripts/data_processing/train_test_split.py
+    params:
+    - split.split_ratio
+    outs:
+    - datasets/train_test_split
+  train:
+    cmd: venv3.9/bin/python3 scripts/model_learning/dt.py datasets/train_test_split/cars_train.csv
+      model.pkl
+    deps:
+    - datasets/train_test_split/cars_train.csv
     - scripts/model_learning/dt.py
     params:
-    - train.max_depth
-    - train.seed
+    - cars.max_depth
+    - cars.seed
     outs:
-    - model.pkl
+    - models/model.pkl
+  evaluate:
+    cmd: python3 scripts/model_learning/evaluate.py datasets/train_test_split/cars_test.csv
+      models/model.pkl
+    deps:
+    - datasets/train_test_split/cars_test.csv
+    - models/model.pkl
+    - scripts/model_learning/evaluate.py
+    metrics:
+    - metrics.csv:
+        cache: false
