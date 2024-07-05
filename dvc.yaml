@@ -36,12 +36,12 @@ stages:
     outs:
     - models/model.pkl
   evaluate:
-    cmd: python3 scripts/model_learning/evaluate.py datasets/train_test_split/cars_test.csv
+    cmd: venv3.9/bin/python3 scripts/model_learning/evaluate.py datasets/train_test_split/cars_test.csv
       models/model.pkl
     deps:
     - datasets/train_test_split/cars_test.csv
     - models/model.pkl
     - scripts/model_learning/evaluate.py
     metrics:
-    - metrics.csv:
+    - evaluate/evaluate.json:
         cache: false

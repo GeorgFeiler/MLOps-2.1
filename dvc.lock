@@ -64,13 +64,13 @@ stages:
       size: 875
     params:
       params.yaml:
-        cars.max_depth: 23
+        cars.max_depth: 15
         cars.seed: 42
     outs:
     - path: models/model.pkl
       hash: md5
-      md5: aa10074a1e7409d070a22ffc2583b1a8
-      size: 503800
+      md5: a30456e6328b6ebfce5829e786823a01
+      size: 217528
   split:
     cmd: venv3.9/bin/python3 scripts/data_processing/train_test_split.py datasets/prepared/cars.csv
     deps:
@@ -101,8 +101,8 @@ stages:
       size: 349024
     - path: models/model.pkl
       hash: md5
-      md5: aa10074a1e7409d070a22ffc2583b1a8
-      size: 503800
+      md5: a30456e6328b6ebfce5829e786823a01
+      size: 217528
     - path: scripts/model_learning/evaluate.py
       hash: md5
       md5: 844d8998341b536f4647694bd5577da0
@@ -110,5 +110,5 @@ stages:
     outs:
     - path: evaluate/evaluate.json
       hash: md5
-      md5: 732149c75832e207a605a6e839f245e8
+      md5: 26a3251304779c94f212fe785b55a577
       size: 29
